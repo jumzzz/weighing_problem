@@ -1,23 +1,16 @@
 use weighing_problem::odd_balls::OddBalls;
 
-
 fn main() {
-    let n = 36;
+    let n = 12;
     let x = 128;
     let delta = 2;
     let odd_balls = OddBalls::new(n, x, delta);
 
     let mut v: &[u64] = &odd_balls.v;
 
-    let mut count = 0;
     while v.len() > 1 {
         println!("Weighs: {:?}", v);
         v = weigh_two_pans(v);
-
-        count += 1;
-        if count > n {
-            break;
-        }
     
     }
 
@@ -25,9 +18,13 @@ fn main() {
     let slice_start = v.as_ptr() as usize;
 
     let located_pos = (slice_start - vector_start) / std::mem::size_of::<u64>();
-
+    let actual_pos = odd_balls.odd_pos;
+    
     println!("located_pos = {:?}", located_pos);
     println!("actual_pos = {:?}", odd_balls.odd_pos);
+
+    println!("value_located_pos = {:?}", &odd_balls.v[located_pos]);
+    println!("value_actual_pos = {:?}", &odd_balls.v[actual_pos]);
 
 
 }
@@ -58,8 +55,6 @@ fn weigh_two_pans(v: &[u64]) -> &[u64] {
         (true, false) => &v[n0..n2],
         _ => &v[n2..n3],
     };
-
-    println!("n0 = {:?}, n1 = {:?}, n2 = {:?}", n0, n1, n2);
 
     if n1 - n0 <= 1 {
         let v0 = *&v[n0];

@@ -9,8 +9,6 @@ pub struct OddBalls {
 
 impl OddBalls {
     pub fn new(n: usize, x: u64, delta: u64) -> Self {
-        // panic if n is not divisble by 3
-        assert!(n % 3 == 0, "n must be divisible by 3. Got: {}", n);
 
         let odd = rand_add_sub(x, delta);
         let v = gen_vec(n, x, odd);
